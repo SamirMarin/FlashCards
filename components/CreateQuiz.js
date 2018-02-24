@@ -5,8 +5,12 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Platform,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native'
-import { lightGray, lightRed } from '../utils/colors'
+import { lightGray, lightRed, black } from '../utils/colors'
 
 class CreateQuiz extends Component {
   state = {
@@ -24,19 +28,24 @@ class CreateQuiz extends Component {
   render() {
     const { title } = this.state
     return (
-      <View style={styles.container}>
-        <TextInput
-          style={styles.textinput}
-          onChangeText={this.handleTitleTextChange}
-          placeholder={"Title"}
-        />
-        <TouchableOpacity 
-          style={styles.submitBtn}
-          onPress={this.handleSubmit}
-        >
-          <Text style={styles.submitBtnText}> Create New Quiz  </Text>
-        </TouchableOpacity>
-      </View>
+      <KeyboardAvoidingView behavior='padding'>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View style={styles.container}>
+            <Text style={styles.text}>What will be the title or your new Quiz?!</Text>
+            <TextInput
+              style={styles.textinput}
+              onChangeText={this.handleTitleTextChange}
+              placeholder={"Title"}
+            />
+            <TouchableOpacity 
+              style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
+              onPress={this.handleSubmit}
+            >
+              <Text style={styles.submitBtnText}> Create New Quiz  </Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -45,9 +54,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-around',
+    paddingLeft: Platform.OS === 'ios' ? 0 : 10,
+    paddingRight: Platform.OS === 'ios' ? 0 : 10,
   },
   textinput: {
-    width: 200,
     height: 50,
     padding: 10,
     borderWidth: 1,
@@ -65,13 +75,18 @@ const styles = StyleSheet.create({
     backgroundColor: lightRed,
     padding: 10,
     borderRadius: 2,
-    height: 70,
+    height: 50,
   },
   submitBtnText: {
     color: 'white',
     fontSize: 22,
     textAlign: 'center',
   },
+  text: {
+    color: black,
+    fontSize: 30,
+    textAlign: 'center',
+  }
 })
 
 export default CreateQuiz
