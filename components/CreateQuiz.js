@@ -11,10 +11,12 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 import { lightGray, lightRed, black } from '../utils/colors'
+import { addQuiz } from '../actions'
+import { connect } from 'react-redux'
 
 class CreateQuiz extends Component {
   state = {
-    title: "" 
+    title: ""
   }
 
   handleTitleTextChange = (title) => {
@@ -22,13 +24,24 @@ class CreateQuiz extends Component {
   }
 
   handleSubmit = () => {
+    const { title } = this.state
+    const quizData = {
+      title,
+      questions: []
+    }
+    
+    //save to local phone db
+    //
+    //save to redux
+    this.props.addQuiz({ key: title, quizData: quizData })
+
     alert("got it")
   }
 
   render() {
     const { title } = this.state
     return (
-      <KeyboardAvoidingView behavior='padding'>
+      <KeyboardAvoidingView style={styles.outerContainer} behavior='padding'>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={styles.container}>
             <Text style={styles.text}>What will be the title or your new Quiz?!</Text>
@@ -51,6 +64,12 @@ class CreateQuiz extends Component {
 }
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'space-around',
@@ -89,5 +108,12 @@ const styles = StyleSheet.create({
   }
 })
 
-export default CreateQuiz
+function mapDispatchToProps( dispatch ) {
+  return {
+    addQuiz: (data) => dispatch(addQuiz(data)),
+  }
+}
+
+
+export default connect(() => ({}), mapDispatchToProps)(CreateQuiz)
 
