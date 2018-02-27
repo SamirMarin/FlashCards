@@ -2,8 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
 import CreateQuiz from './components/CreateQuiz'
 import Quizzes from './components/Quizzes'
-import { TabNavigator } from 'react-navigation'
-import { lightGray, lightRed, black } from './utils/colors'
+import Quiz from './components/Quiz'
+import { TabNavigator, StackNavigator } from 'react-navigation'
+import { lightGray, lightRed, black, yellow } from './utils/colors'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
@@ -55,7 +56,7 @@ const Tabs = TabNavigator({
       activeTintColor: Platform.OS === 'ios' ? lightRed : lightGray,
       style: {
         height: 56,
-        backgroundColor: Platform.OS === 'ios' ? 'white' : lightRed,
+        backgroundColor: Platform.OS === 'ios' ? lightGray : lightRed,
         shadowColor: 'rgba(0, 0, 0, 0.24)',
         shadowOffset: {
           width: 0,
@@ -68,14 +69,30 @@ const Tabs = TabNavigator({
   }
 )
 
+const MainNavigator = StackNavigator({
+  Home: {
+    screen: Tabs,
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      headerTintColor: black,
+      headerStyle: {
+        backgroundColor: lightRed,
+      }
+    }
+  },
+})
+
 const store = createStore(reducer)
+
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
         <View style={styles.container}>
           <FlashCardsStatusBar backgroundColor={lightRed} barStyle='light-content'/>
-          <Tabs/>
+          <MainNavigator/>
         </View>
       </Provider>
     );
