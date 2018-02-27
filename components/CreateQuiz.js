@@ -13,6 +13,7 @@ import {
 import { lightGray, lightRed, black } from '../utils/colors'
 import { addQuiz } from '../actions'
 import { connect } from 'react-redux'
+import { addNewQuiz } from '../utils/api'
 
 class CreateQuiz extends Component {
   state = {
@@ -25,17 +26,24 @@ class CreateQuiz extends Component {
 
   handleSubmit = () => {
     const { title } = this.state
-    const quizData = {
-      title,
-      questions: []
-    }
-    
-    //save to local phone db
-    //
-    //save to redux
-    this.props.addQuiz({ key: title, quizData: quizData })
+    const { quizzes } = this.props
+    if (quizzes[title]){
+      alert("You alredy have a quiz with this name")
 
-    alert("got it")
+    } else {
+      const quizData = {
+        title,
+        questions: []
+      }
+
+      //TODO only add to state if local db success
+      //save to local phone db
+      addNewQuiz({ key: title, quizData: quizData})
+      //
+      //save to redux
+      this.props.addQuiz({ key: title, quizData: quizData })
+    }
+
   }
 
   render() {
@@ -44,7 +52,7 @@ class CreateQuiz extends Component {
       <KeyboardAvoidingView style={styles.outerContainer} behavior='padding'>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={styles.container}>
-            <Text style={styles.text}>What will be the title or your new Quiz?!</Text>
+            <Text style={styles.text}>What will be the title of your new Quiz?!</Text>
             <TextInput
               style={styles.textinput}
               onChangeText={this.handleTitleTextChange}
@@ -108,6 +116,12 @@ const styles = StyleSheet.create({
   }
 })
 
+function mapStateToProps( quizzes ) {
+  return {
+    quizzes
+  }
+}
+
 function mapDispatchToProps( dispatch ) {
   return {
     addQuiz: (data) => dispatch(addQuiz(data)),
@@ -115,5 +129,5 @@ function mapDispatchToProps( dispatch ) {
 }
 
 
-export default connect(() => ({}), mapDispatchToProps)(CreateQuiz)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateQuiz)
 

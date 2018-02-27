@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Platform } from 'react-native';
+import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
 import CreateQuiz from './components/CreateQuiz'
 import Quizzes from './components/Quizzes'
 import { TabNavigator } from 'react-navigation'
@@ -7,18 +7,43 @@ import { lightGray, lightRed, black } from './utils/colors'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
+import { Constants } from 'expo'
+import { Ionicons } from '@expo/vector-icons'
+
+function FlashCardsStatusBar ({ backgroundColor, ...props }) {
+  return (
+    <View style={{backgroundColor, height: Constants.statusBarHeight}}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props}/>
+    </View>
+  )
+}
+
+function getIcon(Component, tintColor, name) {
+  return  (
+      <Component 
+        name={name}
+        size={30} 
+        color={tintColor}/>
+  )
+}
 
 const Tabs = TabNavigator({
   Quizzes: {
     screen: Quizzes,
     navigationOptions: {
-      tabBarLabel: 'Quizzes'
+      tabBarLabel: 'Quizzes',
+      tabBarIcon: ({ tintColor }) => ( Platform.OS === 'ios' 
+        ? getIcon(Ionicons, tintColor, 'ios-list' ) 
+        : getIcon(Ionicons, tintColor, 'md-list' ) )
     }
   },
   CreateQuiz: {
     screen: CreateQuiz,
     navigationOptions: {
-      tabBarLabel: 'Create Quiz'
+      tabBarLabel: 'Create Quiz',
+      tabBarIcon: ({ tintColor }) => ( Platform.OS === 'ios' 
+        ? getIcon(Ionicons, tintColor, 'ios-add-circle' ) 
+        : getIcon(Ionicons, tintColor, 'md-add-circle' ) )
     }
   },
 },
@@ -49,6 +74,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
+          <FlashCardsStatusBar backgroundColor={lightRed} barStyle='light-content'/>
           <Tabs/>
         </View>
       </Provider>

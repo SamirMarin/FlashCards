@@ -7,7 +7,7 @@ export function fetchAllQuizzes() {
 }
 
 export function addNewQuiz({ key, quizData }) {
-  return AsynStorage.mergeItem(QUIZZES_STORAGE_KEY, JSON.strigify({
+  return AsyncStorage.mergeItem(QUIZZES_STORAGE_KEY, JSON.stringify({
     [key]: quizData
   })) 
 }

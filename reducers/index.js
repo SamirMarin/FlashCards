@@ -6,7 +6,7 @@ function quizzes (state ={}, action) {
     case ADD_QUIZZES:
       return {
         ...state,
-        ...quizzes
+        ...quizzes,
       }
     case ADD_QUIZ:
       return {
