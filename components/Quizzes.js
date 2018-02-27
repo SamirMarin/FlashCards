@@ -1,17 +1,22 @@
 import React, { Component } from 'react' 
-import { StyleSheet, Text, View, FlatList } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { yellow, lightGray, darkGray } from '../utils/colors'
 import { fetchAllQuizzes } from '../utils/api'
 import { addQuizzes } from '../actions'
 
 
-function Quiz({ title, size }) {
+function Quiz({ title, size, props }) {
   return (
-    <View style={styles.quiz}>
-      <Text style={styles.quizTitle}> {title} </Text>
-      <Text style={styles.quizSize}> {size} cards </Text>
-    </View>
+    <TouchableOpacity onPress={() => props.navigation.navigate(
+      'Quiz',
+      {title},
+    )}>
+      <View style={styles.quiz}>
+        <Text style={styles.quizTitle}> {title} </Text>
+        <Text style={styles.quizSize}> {size} cards </Text>
+      </View>
+    </TouchableOpacity>
   )
 }
 class Quizzes extends Component {
@@ -27,7 +32,11 @@ class Quizzes extends Component {
   }
 
   renderItem = ({item}) => {
-    return <Quiz {...item}/>
+    const params = {
+      ...item,
+      props: this.props,
+    }
+    return <Quiz {...params}/>
   }
   
   render() {
