@@ -1,5 +1,6 @@
 export const ADD_QUIZ = 'ADD_QUIZ'
 export const ADD_QUIZZES = 'ADD_QUIZZES'
+export const ADD_QUESTION = 'ADD_QUESTION'
 
 export function addQuizzes ( quizzes ) {
   return {
@@ -13,5 +14,13 @@ export function addQuiz ( { key, quizData } ) {
     type: ADD_QUIZ,
     key,
     quizData,
+  }
+}
+
+export function addQuestion ( { key, question } ) {
+  return {
+    type: ADD_QUESTION,
+    key,
+    question,
   }
 }

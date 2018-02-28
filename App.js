@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
 import CreateQuiz from './components/CreateQuiz'
 import Quizzes from './components/Quizzes'
 import Quiz from './components/Quiz'
+import AddQuizCard from './components/AddQuizCard'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { lightGray, lightRed, black, yellow } from './utils/colors'
 import { createStore } from 'redux'
@@ -75,6 +76,15 @@ const MainNavigator = StackNavigator({
   },
   Quiz: {
     screen: Quiz,
+    navigationOptions: {
+      headerTintColor: black,
+      headerStyle: {
+        backgroundColor: lightRed,
+      }
+    }
+  },
+  AddQuizCard: {
+    screen: AddQuizCard,
     navigationOptions: {
       headerTintColor: black,
       headerStyle: {
