@@ -1,7 +1,7 @@
-import { ADD_QUIZ, ADD_QUIZZES } from '../actions'
+import { ADD_QUIZ, ADD_QUIZZES, ADD_QUESTION } from '../actions'
 
 function quizzes (state ={}, action) {
-  const { key, quizData, quizzes } = action
+  const { key, quizData, quizzes, question } = action
   switch(action.type) {
     case ADD_QUIZZES:
       return {
@@ -12,6 +12,14 @@ function quizzes (state ={}, action) {
       return {
         ...state,
         [key]: quizData,
+      }
+    case ADD_QUESTION:
+      return {
+        ...state,
+        [key]: {
+          ...state[key],
+          'questions': [...state[key].questions, question]
+        }
       }
     default:
       return state

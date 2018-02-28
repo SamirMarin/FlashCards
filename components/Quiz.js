@@ -9,8 +9,6 @@ import {
 } from 'react-native'
 import { lightRed, black } from '../utils/colors'
 
-
-
 class Quiz extends Component {
   static navigationOptions = ({ navigation }) => {
     const { title } = navigation.state.params
@@ -28,7 +26,7 @@ class Quiz extends Component {
             <Text style={styles.cardsText}>{ size } cards </Text>
             <TouchableOpacity 
               style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
-              onPress={console.log("add card")}
+              onPress={() => this.props.navigation.navigate('AddQuizCard', { title }) }
             >
               <Text style={styles.submitBtnText}>Add Card</Text>
             </TouchableOpacity>

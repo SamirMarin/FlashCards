@@ -11,3 +11,11 @@ export function addNewQuiz({ key, quizData }) {
     [key]: quizData
   })) 
 }
+
+export function addQuestionToQuiz({ key, question }) {
+  return AsyncStorage.getItem(QUIZZES_STORAGE_KEY)
+    .then((quizzes) => JSON.parse(quizzes)[key])
+    .then((quizData) => AsyncStorage.mergeItem(QUIZZES_STORAGE_KEY, JSON.stringify({
+      [key]: {...quizData, 'questions': [...quizData.questions, question]}
+    })))
+}
