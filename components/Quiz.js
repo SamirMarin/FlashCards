@@ -11,10 +11,9 @@ import { lightRed, black } from '../utils/colors'
 import { connect } from 'react-redux'
 
 class Quiz extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { title } = navigation.state.params
+  static navigationOptions = () => {
     return {
-      title
+      title: "Quiz"
     }
   }
   render() {

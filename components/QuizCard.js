@@ -62,6 +62,7 @@ class QuizCard extends Component {
             <Text> {numCorrect} out of {numQuestions} </Text>
           </View>
           : <View style={styles.container}>
+            <Text style={styles.text}> { cardIndex + 1 }/{ numQuestions } </Text>
             {answer
                 ? <Text style={styles.text}> { questions[cardIndex].answer } </Text>
                 : <Text style={styles.text}> { questions[cardIndex].question } </Text> 
