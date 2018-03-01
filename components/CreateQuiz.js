@@ -80,12 +80,14 @@ class CreateQuiz extends Component {
               placeholder={"Title"}
               value={this.state.title}
             />
-            <TouchableOpacity 
-              style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
-              onPress={this.handleSubmit}
-            >
-              <Text style={styles.submitBtnText}> Create New Quiz  </Text>
-            </TouchableOpacity>
+            <View style={styles.btnView}>
+              <TouchableOpacity 
+                style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
+                onPress={this.handleSubmit}
+              >
+                <Text style={styles.submitBtnText}> Create New Quiz  </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -97,14 +99,13 @@ const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
   container: {
     flex: 1,
     justifyContent: 'space-around',
-    paddingLeft: Platform.OS === 'ios' ? 0 : 10,
-    paddingRight: Platform.OS === 'ios' ? 0 : 10,
+    paddingLeft: Platform.OS === 'ios' ? 20 : 20,
+    paddingRight: Platform.OS === 'ios' ? 20 : 20,
   },
   textinput: {
     height: 50,
@@ -130,6 +131,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 22,
     textAlign: 'center',
+  },
+  btnView: {
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   text: {
     color: black,

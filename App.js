@@ -12,21 +12,13 @@ import { Provider } from 'react-redux'
 import reducer from './reducers'
 import { Constants } from 'expo'
 import { Ionicons } from '@expo/vector-icons'
+import { getIcon } from './utils/helpers'
 
 function FlashCardsStatusBar ({ backgroundColor, ...props }) {
   return (
     <View style={{backgroundColor, height: Constants.statusBarHeight}}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props}/>
     </View>
-  )
-}
-
-function getIcon(Component, tintColor, name) {
-  return  (
-      <Component 
-        name={name}
-        size={30} 
-        color={tintColor}/>
   )
 }
 
@@ -38,7 +30,7 @@ const Tabs = TabNavigator({
       tabBarIcon: ({ tintColor }) => ( Platform.OS === 'ios' 
         ? getIcon(Ionicons, tintColor, 'ios-list' ) 
         : getIcon(Ionicons, tintColor, 'md-list' ) )
-    }
+    },
   },
   CreateQuiz: {
     screen: CreateQuiz,

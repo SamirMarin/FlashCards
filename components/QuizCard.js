@@ -9,21 +9,26 @@ import {
   Animated,
   Dimensions,
 } from 'react-native'
-import { lightGray, lightRed, black, darkGray } from '../utils/colors'
+import { lightGray, lightRed, black, darkGray, lightGreen } from '../utils/colors'
 import { connect } from 'react-redux'
+import { mainFont, ansFont } from '../utils/helpers'
+import { Ionicons } from '@expo/vector-icons'
+import { getIcon } from '../utils/helpers'
 
 class QuizCard extends Component {
   state = {
     cardIndex: 0,
     answer: false,
-    flipBtn: 'Answer',
     numCorrect: 0,
+    iosEye: 'ios-eye',
+    androidEye: 'md-eye',
   }
 
   flipCard = () => {
     this.setState((state) => ({
-      flipBtn: state.answer ? 'Answer' : 'Question',
       answer: !state.answer,
+      iosEye: state.answer ? 'ios-eye' : 'ios-eye-off',
+      androidEye: state.answer ? 'md-eye' : 'md-eye-off',
       }
     ))
   }
@@ -33,7 +38,8 @@ class QuizCard extends Component {
       cardIndex: state.cardIndex + 1,
       numCorrect: state.numCorrect + 1,
       answer: false,
-      flipBtn: 'Answer',
+      iosEye: 'ios-eye',
+      androidEye: 'md-eye',
     }))
   }
 
@@ -41,7 +47,8 @@ class QuizCard extends Component {
     this.setState((state) => ({
       cardIndex: state.cardIndex + 1,
       answer: false,
-      flipBtn: 'Answer',
+      iosEye: 'ios-eye',
+      androidEye: 'md-eye',
     }))
   }
 
@@ -55,25 +62,28 @@ class QuizCard extends Component {
   }
   render() {
     const { title } = this.props.navigation.state.params
-    const { cardIndex, answer, flipBtn, numCorrect } = this.state
+    const { cardIndex, answer, numCorrect, iosEye, androidEye } = this.state
     const { questions, numQuestions } = this.props
     return (
       <View style={[styles.outerContainer]}>
         {cardIndex === numQuestions 
           ? <View>
-            <Text styel={{flex: 1}}> {numCorrect} out of {numQuestions} </Text>
+            <Text style={styles.textAns}> You have correctly answered {numCorrect} out of {numQuestions}! </Text>
           </View>
           : <View style={[styles.container]}>
               <Text style={styles.textQuestionCount}> { cardIndex + 1 }/{ numQuestions } </Text>
               <View>
-                {answer
-                    ? <Text style={styles.text}> { questions[cardIndex].answer } </Text>
-                    : <Text style={styles.text}> { questions[cardIndex].question } </Text> 
-                }
+                <Text style={styles.text}> { questions[cardIndex].question } </Text> 
                 <TouchableOpacity
                   onPress={this.flipCard}
                 >
-                  <Text style={styles.textFlipBtn}> { flipBtn } </Text>
+                  <Text style={styles.textFlipBtn}> 
+                    { Platform.OS === 'ios' 
+                      ? getIcon(Ionicons, black, iosEye) 
+                      : getIcon(Ionicons, black, androidEye) 
+                    }
+                  </Text>
+                  { answer && <Text style={styles.textAns}> { questions[cardIndex].answer } </Text> }
                 </TouchableOpacity>
               </View>
               <View>
@@ -87,7 +97,7 @@ class QuizCard extends Component {
                 </View>
                 <View style={styles.incorrectBtnView}>
                   <TouchableOpacity 
-                    style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
+                    style={Platform.OS === 'ios' ? styles.incorrectBtn : styles.androidIncorrectBtn}
                     onPress={this.incorrect}
                   >
                     <Text style={styles.submitBtnText}> Incorrect </Text>
@@ -108,18 +118,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   container: {
-    paddingLeft: Platform.OS === 'ios' ? 0 : 10,
-    paddingRight: Platform.OS === 'ios' ? 0 : 10,
+    paddingLeft: Platform.OS === 'ios' ? 20 : 20,
+    paddingRight: Platform.OS === 'ios' ? 20 : 20,
     justifyContent: 'space-between',
     flex: 1,
   },
   submitBtn: {
-    backgroundColor: lightRed,
+    backgroundColor: lightGreen,
     padding: 10,
     borderRadius: 7,
     height: 50,
   },
   androidSubmitBtn: {
+    backgroundColor: lightGreen,
+    padding: 10,
+    borderRadius: 2,
+    height: 50,
+  },
+  incorrectBtn: {
+    backgroundColor: lightRed,
+    padding: 10,
+    borderRadius: 7,
+    height: 50,
+  },
+  androidIncorrectBtn: {
     backgroundColor: lightRed,
     padding: 10,
     borderRadius: 2,
@@ -132,22 +154,33 @@ const styles = StyleSheet.create({
   },
   text: {
     color: black,
-    fontSize: 30,
+    fontSize: 25,
     textAlign: 'center',
-    fontWeight: '900',
+    fontWeight: '400',
     paddingBottom: 10,
+    fontFamily: mainFont, 
+  },
+  textAns: {
+    color: black,
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: '200',
+    paddingBottom: 10,
+    fontFamily: mainFont, 
   },
   textQuestionCount: {
     color: darkGray,
     fontSize: 15,
     fontWeight: '300',
     paddingTop: 10,
+    fontFamily: mainFont, 
   },
   textFlipBtn: {
     color: 'red',
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
+    fontFamily: mainFont, 
   },
   incorrectBtnView: {
     paddingBottom: 60,

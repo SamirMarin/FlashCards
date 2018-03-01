@@ -70,12 +70,14 @@ class AddQuizCard extends Component {
                 placeholder={"Answer..."}
               />
             </View>
-            <TouchableOpacity 
-              style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
-              onPress={() => this.handleOnSubmit(title)}
-            >
-              <Text style={styles.submitBtnText}> Add Card </Text>
-            </TouchableOpacity>
+            <View style={styles.btnView}>
+              <TouchableOpacity 
+                style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
+                onPress={() => this.handleOnSubmit(title)}
+              >
+                <Text style={styles.submitBtnText}> Add Card </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -91,8 +93,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-around',
-    paddingLeft: Platform.OS === 'ios' ? 20 : 10,
-    paddingRight: Platform.OS === 'ios' ? 20 : 10,
+    paddingLeft: Platform.OS === 'ios' ? 20 : 20,
+    paddingRight: Platform.OS === 'ios' ? 20 : 20,
   },
   textinput: {
     height: 50,
@@ -113,6 +115,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 2,
     height: 50,
+  },
+  btnView: {
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   submitBtnText: {
     color: 'white',
