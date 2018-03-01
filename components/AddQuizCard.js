@@ -52,26 +52,32 @@ class AddQuizCard extends Component {
   render() {
     const { title } = this.props.navigation.state.params
     return (
-      <KeyboardAvoidingView style={styles.outerContainer} behavior='padding'>
+      <KeyboardAvoidingView style={styles.outerContainer} behavior="padding">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View style={styles.container}>
+          <View style={styles.container } >
             <Text style={styles.text}> { title } </Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={this.handleQuestionChange}
-              placeholder={"Question?"}
-            />
-            <TextInput
-              style={styles.textinput}
-              onChangeText={this.handleAnswerChange}
-              placeholder={"Answere..."}
-            />
-            <TouchableOpacity 
-              style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
-              onPress={() => this.handleOnSubmit(title)}
-            >
-              <Text style={styles.submitBtnText}> Add Card </Text>
-            </TouchableOpacity>
+            <View>
+              <View style={styles.textInputView}>
+                <TextInput
+                  style={styles.textinput}
+                  onChangeText={this.handleQuestionChange}
+                  placeholder={"Question?"}
+                />
+              </View>
+              <TextInput
+                style={styles.textinput}
+                onChangeText={this.handleAnswerChange}
+                placeholder={"Answer..."}
+              />
+            </View>
+            <View style={styles.btnView}>
+              <TouchableOpacity 
+                style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
+                onPress={() => this.handleOnSubmit(title)}
+              >
+                <Text style={styles.submitBtnText}> Add Card </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -82,14 +88,13 @@ const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
   container: {
     flex: 1,
     justifyContent: 'space-around',
-    paddingLeft: Platform.OS === 'ios' ? 0 : 10,
-    paddingRight: Platform.OS === 'ios' ? 0 : 10,
+    paddingLeft: Platform.OS === 'ios' ? 20 : 20,
+    paddingRight: Platform.OS === 'ios' ? 20 : 20,
   },
   textinput: {
     height: 50,
@@ -111,6 +116,10 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     height: 50,
   },
+  btnView: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
   submitBtnText: {
     color: 'white',
     fontSize: 22,
@@ -121,6 +130,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
   },
+  textInputView: {
+    paddingBottom: 20,
+  }
 })
 
 function mapDispatchToProps( dispatch, { navigation } ) {

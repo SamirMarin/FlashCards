@@ -1,9 +1,10 @@
 import React, { Component } from 'react' 
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Platform } from 'react-native'
 import { connect } from 'react-redux'
-import { yellow, lightGray, darkGray } from '../utils/colors'
+import { yellow, lightGray, darkGray, black } from '../utils/colors'
 import { fetchAllQuizzes } from '../utils/api'
 import { addQuizzes } from '../actions'
+import { mainFont } from '../utils/helpers'
 
 
 function Quiz({ title, size, props }) {
@@ -43,7 +44,7 @@ class Quizzes extends Component {
     return (
       <View style={styles.container}> 
         {this.props.quizzes && this.props.quizzes.length === 0 
-          ?  <Text> You currently have no quizzes, but you can add some! </Text> 
+          ?  <Text style={styles.text}> You currently have no quizzes, but you can add some! </Text> 
           : <FlatList
             data={this.props.quizzes}
             renderItem={this.renderItem}
@@ -58,8 +59,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    //alignItems: 'center',
-    //justifyContent: 'center',
   },
   quiz :{
     flex: 1,
@@ -73,10 +72,20 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingTop: 20,
     paddingBottom: 10,
+    fontFamily: mainFont, 
   },
   quizSize: {
     color: darkGray,
     paddingBottom: 10,
+    fontFamily: mainFont, 
+  },
+  text: {
+    color: black,
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: '200',
+    paddingTop: 50,
+    fontFamily: mainFont, 
   },
 });
 
