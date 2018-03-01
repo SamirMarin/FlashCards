@@ -8,6 +8,7 @@ import {
   Platform,
 } from 'react-native'
 import { lightRed, black } from '../utils/colors'
+import { connect } from 'react-redux'
 
 class Quiz extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -17,7 +18,8 @@ class Quiz extends Component {
     }
   }
   render() {
-    const { title, size } = this.props.navigation.state.params
+    const { title } = this.props.navigation.state.params
+    const { size } = this.props
     return (
       <View style={styles.outerContainer} >
         <TouchableWithoutFeedback onPress={console.log("dissmiss")} accessible={false}>
@@ -26,13 +28,13 @@ class Quiz extends Component {
             <Text style={styles.cardsText}>{ size } cards </Text>
             <TouchableOpacity 
               style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
-              onPress={() => this.props.navigation.navigate('AddQuizCard', { title }) }
+              onPress={() => this.props.navigation.navigate('AddQuizCard', { title })}
             >
               <Text style={styles.submitBtnText}>Add Card</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
-              onPress={console.log("start quiz")}
+              onPress={() => this.props.navigation.navigate('QuizCard', { title })}
             >
               <Text style={styles.submitBtnText}> Start Quiz </Text>
             </TouchableOpacity>
@@ -85,4 +87,11 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Quiz
+function mapStateToProps(quizzes, { navigation }) {
+  const { title } = navigation.state.params
+  return {
+    size: quizzes[title].questions.length
+  }
+}
+
+export default connect(mapStateToProps)(Quiz)
