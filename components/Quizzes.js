@@ -10,7 +10,7 @@ function Quiz({ title, size, props }) {
   return (
     <TouchableOpacity onPress={() => props.navigation.navigate(
       'Quiz',
-      {title, size},
+      { title },
     )}>
       <View style={styles.quiz}>
         <Text style={styles.quizTitle}> {title} </Text>

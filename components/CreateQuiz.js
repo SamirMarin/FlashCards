@@ -14,6 +14,7 @@ import { lightGray, lightRed, black } from '../utils/colors'
 import { addQuiz } from '../actions'
 import { connect } from 'react-redux'
 import { addNewQuiz } from '../utils/api'
+import { NavigationActions } from 'react-navigation'
 
 class CreateQuiz extends Component {
   state = {
@@ -42,7 +43,27 @@ class CreateQuiz extends Component {
       //
       //save to redux
       this.props.addQuiz({ key: title, quizData: quizData })
+      this.toQuizzesPage()
+      this.toQuizPage(title)
+      this.setState({ title: ""})
     }
+
+  }
+
+  toQuizzesPage = () => {
+    const backAction = NavigationActions.back({
+      key: 'CreateQuiz', 
+    })
+    this.props.navigation.dispatch(backAction)
+  }
+
+  toQuizPage = ( title ) => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'Quiz',
+      params: { title },
+      key: 'Quizzes',
+    })
+    this.props.navigation.dispatch(navigateAction)
 
   }
 
@@ -57,6 +78,7 @@ class CreateQuiz extends Component {
               style={styles.textinput}
               onChangeText={this.handleTitleTextChange}
               placeholder={"Title"}
+              value={this.state.title}
             />
             <TouchableOpacity 
               style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}

@@ -31,7 +31,7 @@ class AddQuizCard extends Component {
 
   handleOnSubmit(title) {
     const { question, answer } = this.state
-    const { addQuestion } = this.props
+    const { addQuestion, goBack } = this.props
     const questionObj = {
       question,
       answer,
@@ -40,9 +40,7 @@ class AddQuizCard extends Component {
     //TODO need to handle add to state on db non failure
     addQuestion({ key: title, question: questionObj })
     addQuestionToQuiz({ key: title, question: questionObj })
-
-    alert(this.state.question)
-    alert(this.state.answer)
+    goBack()
   }
 
   static navigationOptions = () => {
@@ -125,9 +123,10 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapDispatchToProps( dispatch ) {
+function mapDispatchToProps( dispatch, { navigation } ) {
   return {
-    addQuestion: (data) => dispatch(addQuestion(data))
+    addQuestion: (data) => dispatch(addQuestion(data)),
+    goBack: () => navigation.goBack(),
   }
 }
 
