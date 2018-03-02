@@ -7,13 +7,15 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native'
-import { lightRed, black } from '../utils/colors'
+import { lightRed, black, white } from '../utils/colors'
 import { connect } from 'react-redux'
 import { mainFont } from '../utils/helpers'
 
 class Quiz extends Component {
   static navigationOptions = {
-      title: 'Quiz', 
+    title: 'Quiz', 
+    headerTitleStyle: { fontSize: 25 },
+    headerTintColor: white,
   }
   render() {
     const { title } = this.props.navigation.state.params
