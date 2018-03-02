@@ -52,6 +52,15 @@ class QuizCard extends Component {
     }))
   }
 
+  restartQuiz = () => {
+    this.setState({
+      cardIndex: 0,
+      answer: false,
+      numCorrect: 0,
+      iosEye: 'ios-eye',
+      androidEye: 'md-eye',
+    })
+  }
 
   static navigationOptions = ( { navigation } ) => {
     const { title } = navigation.state.params
@@ -64,12 +73,30 @@ class QuizCard extends Component {
   render() {
     const { title } = this.props.navigation.state.params
     const { cardIndex, answer, numCorrect, iosEye, androidEye } = this.state
-    const { questions, numQuestions } = this.props
+    const { questions, numQuestions, goBack } = this.props
     return (
       <View style={[styles.outerContainer]}>
         {cardIndex === numQuestions 
-          ? <View>
+          ? <View style={styles.containerResults}>
             <Text style={styles.textAns}> You have correctly answered {numCorrect} out of {numQuestions}! </Text>
+            <View>
+              <View style={styles.correctBtnView}>
+                <TouchableOpacity 
+                  style={Platform.OS === 'ios' ? styles.incorrectBtn : styles.androidIncorrectBtn }
+                  onPress={this.restartQuiz}
+                >
+                  <Text style={styles.submitBtnText}> Restart Quiz </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.incorrectBtnView}>
+                <TouchableOpacity 
+                  style={Platform.OS === 'ios' ? styles.incorrectBtn : styles.androidIncorrectBtn}
+                  onPress={() => goBack()}
+                >
+                  <Text style={styles.submitBtnText}> Back to Deck </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
           : <View style={[styles.container]}>
               <Text style={styles.textQuestionCount}> { cardIndex + 1 }/{ numQuestions } </Text>
@@ -119,9 +146,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   container: {
-    paddingLeft: Platform.OS === 'ios' ? 20 : 20,
-    paddingRight: Platform.OS === 'ios' ? 20 : 20,
+    paddingLeft: 20,
+    paddingRight: 20,
     justifyContent: 'space-between',
+    flex: 1,
+  },
+  containerResults: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    justifyContent: 'space-around',
     flex: 1,
   },
   submitBtn: {
@@ -201,6 +234,7 @@ function mapStateToProps(quizzes, { navigation }) {
   return {
     questions: quizzes[title].questions,
     numQuestions: quizzes[title].questions.length,
+    goBack: () => navigation.goBack(),
   }
 }
 

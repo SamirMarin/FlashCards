@@ -35,14 +35,16 @@ class Quiz extends Component {
                   <Text style={styles.submitBtnText}>Add Card</Text>
                 </TouchableOpacity>
               </View>
-              <View style={styles.startQuizBtnView}>
-                <TouchableOpacity 
-                  style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
-                  onPress={() => this.props.navigation.navigate('QuizCard', { title })}
-                >
-                  <Text style={styles.submitBtnText}> Start Quiz </Text>
-                </TouchableOpacity>
-              </View>
+              { size > 0 && 
+                  <View style={styles.startQuizBtnView}>
+                    <TouchableOpacity 
+                      style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
+                      onPress={() => this.props.navigation.navigate('QuizCard', { title })}
+                    >
+                      <Text style={styles.submitBtnText}> Start Quiz </Text>
+                    </TouchableOpacity>
+                  </View>
+              }
             </View>
           </View>
         </TouchableWithoutFeedback>
