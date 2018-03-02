@@ -1,7 +1,7 @@
 import React, { Component } from 'react' 
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Platform } from 'react-native'
 import { connect } from 'react-redux'
-import { yellow, lightGray, darkGray, black } from '../utils/colors'
+import { yellow, lightGray, darkGray, black, white } from '../utils/colors'
 import { fetchAllQuizzes } from '../utils/api'
 import { addQuizzes } from '../actions'
 import { mainFont } from '../utils/helpers'
@@ -44,7 +44,9 @@ class Quizzes extends Component {
     return (
       <View style={styles.container}> 
         {this.props.quizzes && this.props.quizzes.length === 0 
-          ?  <Text style={styles.text}> You currently have no quizzes, but you can add some! </Text> 
+          ? <View style={styles.textView}> 
+            <Text style={styles.text}> You currently have no quizzes, but you can create some! </Text> 
+          </View>
           : <FlatList
             data={this.props.quizzes}
             renderItem={this.renderItem}
@@ -63,8 +65,7 @@ const styles = StyleSheet.create({
   quiz :{
     flex: 1,
     alignItems: 'center',
-    backgroundColor: yellow,
-    borderColor: darkGray,
+    borderColor: lightGray,
     borderWidth: 1,
   },
   quizTitle: {
@@ -84,9 +85,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     fontWeight: '200',
-    paddingTop: 50,
     fontFamily: mainFont, 
   },
+  textView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  }
 });
 
 function mapStateToProps( quizzes ) {

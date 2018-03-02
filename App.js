@@ -6,13 +6,13 @@ import Quiz from './components/Quiz'
 import AddQuizCard from './components/AddQuizCard'
 import QuizCard from './components/QuizCard'
 import { TabNavigator, StackNavigator, TabBarBottom } from 'react-navigation'
-import { lightGray, lightRed, black, yellow } from './utils/colors'
+import { lightGray, lightRed, black, yellow, white } from './utils/colors'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import { Constants } from 'expo'
 import { Ionicons } from '@expo/vector-icons'
-import { getIcon } from './utils/helpers'
+import { getIcon, appNameFont } from './utils/helpers'
 
 function FlashCardsStatusBar ({ backgroundColor, ...props }) {
   return (
@@ -45,13 +45,16 @@ const Tabs = TabNavigator({
   {
     navigationOptions: {
       title: "Cartaz",
-      headerStyle: { backgroundColor: Platform.OS === 'ios' ? lightGray : lightRed }
+      headerStyle: { backgroundColor: lightRed },
+      headerTitleStyle: { color: white, fontFamily: appNameFont, fontSize: 25 },
     },
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: 'bottom',
     tabBarOptions: {
-      activeTintColor: Platform.OS === 'ios' ? lightRed : lightGray,
+      activeTintColor: white,
       style: {
         height: 56,
-        backgroundColor: Platform.OS === 'ios' ? lightGray : lightRed,
+        backgroundColor: black,
         shadowColor: 'rgba(0, 0, 0, 0.24)',
         shadowOffset: {
           width: 0,
@@ -71,7 +74,7 @@ const MainNavigator = StackNavigator({
   Quiz: {
     screen: Quiz,
     navigationOptions: {
-      headerTintColor: black,
+      headerTintColor: white,
       headerStyle: {
         backgroundColor: lightRed,
       }
@@ -80,7 +83,7 @@ const MainNavigator = StackNavigator({
   AddQuizCard: {
     screen: AddQuizCard,
     navigationOptions: {
-      headerTintColor: black,
+      headerTintColor: white,
       headerStyle: {
         backgroundColor: lightRed,
       },
@@ -89,7 +92,7 @@ const MainNavigator = StackNavigator({
   QuizCard: {
     screen: QuizCard,
     navigationOptions: {
-      headerTintColor: black,
+      headerTintColor: white,
       headerStyle: {
         backgroundColor: lightRed,
       }

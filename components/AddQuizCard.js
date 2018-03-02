@@ -46,7 +46,8 @@ class AddQuizCard extends Component {
   }
 
   static navigationOptions = {
-    title: "Add Quiz Card",
+    title: "Add Card",
+    headerTitleStyle: { fontSize: 25 },
   }
 
   render() {

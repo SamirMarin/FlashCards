@@ -57,7 +57,8 @@ class QuizCard extends Component {
     const { title } = navigation.state.params
 
     return {
-      title 
+      title,
+      headerTitleStyle: { fontSize: 25 },
     }
   }
   render() {
