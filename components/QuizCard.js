@@ -13,7 +13,7 @@ import { lightGray, lightRed, black, darkGray, lightGreen } from '../utils/color
 import { connect } from 'react-redux'
 import { mainFont, ansFont } from '../utils/helpers'
 import { Ionicons } from '@expo/vector-icons'
-import { getIcon } from '../utils/helpers'
+import { getIcon, removeLocalNotification, setLocalNotification } from '../utils/helpers'
 
 class QuizCard extends Component {
   state = {
@@ -22,6 +22,11 @@ class QuizCard extends Component {
     numCorrect: 0,
     iosEye: 'ios-eye',
     androidEye: 'md-eye',
+  }
+
+  componentDidMount () {
+    removeLocalNotification()
+      .then(setLocalNotification)
   }
 
   flipCard = () => {
