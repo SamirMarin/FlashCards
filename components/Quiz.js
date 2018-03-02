@@ -12,10 +12,8 @@ import { connect } from 'react-redux'
 import { mainFont } from '../utils/helpers'
 
 class Quiz extends Component {
-  static navigationOptions = () => {
-    return {
-      title: "Quiz"
-    }
+  static navigationOptions = {
+      title: 'Quiz', 
   }
   render() {
     const { title } = this.props.navigation.state.params
@@ -101,6 +99,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     fontFamily: mainFont, 
+  },
+  headerText: {
+    textAlign: 'center',
   },
 })
 

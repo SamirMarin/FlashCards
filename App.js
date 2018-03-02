@@ -5,7 +5,7 @@ import Quizzes from './components/Quizzes'
 import Quiz from './components/Quiz'
 import AddQuizCard from './components/AddQuizCard'
 import QuizCard from './components/QuizCard'
-import { TabNavigator, StackNavigator } from 'react-navigation'
+import { TabNavigator, StackNavigator, TabBarBottom } from 'react-navigation'
 import { lightGray, lightRed, black, yellow } from './utils/colors'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -44,7 +44,8 @@ const Tabs = TabNavigator({
 },
   {
     navigationOptions: {
-      header: null,
+      title: "Cartaz",
+      headerStyle: { backgroundColor: Platform.OS === 'ios' ? lightGray : lightRed }
     },
     tabBarOptions: {
       activeTintColor: Platform.OS === 'ios' ? lightRed : lightGray,
@@ -82,7 +83,7 @@ const MainNavigator = StackNavigator({
       headerTintColor: black,
       headerStyle: {
         backgroundColor: lightRed,
-      }
+      },
     }
   },
   QuizCard: {

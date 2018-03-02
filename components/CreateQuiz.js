@@ -27,7 +27,7 @@ class CreateQuiz extends Component {
 
   handleSubmit = () => {
     const { title } = this.state
-    const { quizzes } = this.props
+    const { quizzes, addQuiz } = this.props
     if (quizzes[title]){
       alert("You alredy have a quiz with this name")
 
@@ -37,17 +37,16 @@ class CreateQuiz extends Component {
         questions: []
       }
 
-      //TODO only add to state if local db success
-      //save to local phone db
-      addNewQuiz({ key: title, quizData: quizData})
-      //
-      //save to redux
-      this.props.addQuiz({ key: title, quizData: quizData })
-      this.toQuizzesPage()
-      this.toQuizPage(title)
+      addNewQuiz({ key: title, quizData: quizData })
+        .then(() => {
+          addQuiz({ key: title, quizData: quizData })
+          this.toQuizzesPage()
+          this.toQuizPage(title)
+        })
+        .catch((err) => console.log(err))
+
       this.setState({ title: ""})
     }
-
   }
 
   toQuizzesPage = () => {

@@ -37,16 +37,16 @@ class AddQuizCard extends Component {
       answer,
     }
 
-    //TODO need to handle add to state on db non failure
-    addQuestion({ key: title, question: questionObj })
     addQuestionToQuiz({ key: title, question: questionObj })
-    goBack()
+      .then(() => {
+        addQuestion({ key: title, question: questionObj })
+        goBack()
+      })
+      .catch((err) => console.log(err))
   }
 
-  static navigationOptions = () => {
-    return {
-      title: "Add Quiz Card"
-    }
+  static navigationOptions = {
+    title: "Add Quiz Card",
   }
 
   render() {
