@@ -11,4 +11,4 @@ IOS and Android application that allows users to create and study a collection o
 
 run locally using expo, to run on your own phone locally download [Expo](https://expo.io/) on android or IOS, and use the QR code in terminal after running yarn start.
 
-Can also run using simulators. For IOS, if you have a mac the simulator for xcode work great. For Android, its recommended you use [genymotion](https://www.genymotion.com/)
+Can also run using simulators. For IOS, if you have a mac the simulator for xcode works great. For Android, its recommended you use [genymotion](https://www.genymotion.com/)
