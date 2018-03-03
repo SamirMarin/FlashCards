@@ -1,7 +1,13 @@
-import { ADD_QUIZ, ADD_QUIZZES, ADD_QUESTION, DELETE_QUIZ } from '../actions'
+import { 
+  ADD_QUIZ, 
+  ADD_QUIZZES, 
+  ADD_QUESTION, 
+  DELETE_QUIZ, 
+  DELETE_QUESTION,
+} from '../actions'
 
 function quizzes (state ={}, action) {
-  const { key, quizData, quizzes, question } = action
+  const { key, quizData, quizzes, question, questions } = action
   switch(action.type) {
     case ADD_QUIZZES:
       return {
@@ -30,6 +36,14 @@ function quizzes (state ={}, action) {
           return newState
         }, { })
       )
+    case DELETE_QUESTION:
+      return {
+        ...state,
+        [key]: {
+          ...state[key],
+          'questions': questions,
+        }
+      }
     default:
       return state
   }

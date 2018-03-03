@@ -29,3 +29,11 @@ export function deleteQuizStorage( key ) {
       return AsyncStorage.setItem(QUIZZES_STORAGE_KEY, JSON.stringify(data))
     })
 }
+
+export function deleteQuestionFromQuiz({ key, questions }) {
+  return AsyncStorage.getItem(QUIZZES_STORAGE_KEY)
+    .then((quizzes) => JSON.parse(quizzes)[key])
+    .then((quizData) => AsyncStorage.mergeItem(QUIZZES_STORAGE_KEY, JSON.stringify({
+      [key]: {...quizData, 'questions': questions }
+    })))
+}

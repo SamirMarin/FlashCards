@@ -20,7 +20,7 @@ class Quiz extends Component {
     const { deleteQuiz, goBack } = this.props
     Alert.alert(
       'Confirm Deletion of Quiz',
-      `Are you sure you want to delete ${key} quiz`,
+      `Are you sure you want to delete ${key} quiz?`,
       [
         { 
           text: "Cancel", 
@@ -150,14 +150,14 @@ const styles = StyleSheet.create({
 function mapStateToProps(quizzes, { navigation }) {
   const { title } = navigation.state.params
   return {
-    size: quizzes[title] ? quizzes[title].questions.length : null
+    size: quizzes[title] ? quizzes[title].questions.length : null,
+    goBack: () => navigation.goBack(),
   }
 }
 
-function mapDispatchToProps( dispatch, { navigation }) {
+function mapDispatchToProps( dispatch ) {
   return {
     deleteQuiz: (data) => dispatch(deleteQuiz(data)),
-    goBack: () => navigation.goBack(),
   }
 }
 
