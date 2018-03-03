@@ -23,7 +23,7 @@ class Quiz extends Component {
       [
         { 
           text: "Cancel", 
-          onPress: console.log("cancel")
+          onPress: () => console.log("cancel")
         },
         { 
           text: "Delete", 
