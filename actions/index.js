@@ -1,6 +1,7 @@
 export const ADD_QUIZ = 'ADD_QUIZ'
 export const ADD_QUIZZES = 'ADD_QUIZZES'
 export const ADD_QUESTION = 'ADD_QUESTION'
+export const DELETE_QUIZ = 'DELETE_QUIZ'
 
 export function addQuizzes ( quizzes ) {
   return {
@@ -22,5 +23,12 @@ export function addQuestion ( { key, question } ) {
     type: ADD_QUESTION,
     key,
     question,
+  }
+}
+
+export function deleteQuiz ( key ) {
+  return {
+    type: DELETE_QUIZ,
+    key,
   }
 }

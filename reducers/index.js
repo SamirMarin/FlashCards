@@ -1,4 +1,4 @@
-import { ADD_QUIZ, ADD_QUIZZES, ADD_QUESTION } from '../actions'
+import { ADD_QUIZ, ADD_QUIZZES, ADD_QUESTION, DELETE_QUIZ } from '../actions'
 
 function quizzes (state ={}, action) {
   const { key, quizData, quizzes, question } = action
@@ -21,6 +21,15 @@ function quizzes (state ={}, action) {
           'questions': [...state[key].questions, question]
         }
       }
+    case DELETE_QUIZ:
+      return (
+        Object.keys(state).reduce((newState, quiz) => {
+          if(quiz !== key) {
+            newState[quiz] = state[quiz]
+          }
+          return newState
+        }, { })
+      )
     default:
       return state
   }

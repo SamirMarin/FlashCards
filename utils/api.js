@@ -19,3 +19,13 @@ export function addQuestionToQuiz({ key, question }) {
       [key]: {...quizData, 'questions': [...quizData.questions, question]}
     })))
 }
+
+export function deleteQuizStorage( key ) {
+  return AsyncStorage.getItem(QUIZZES_STORAGE_KEY)
+    .then((result) => {
+      const data = JSON.parse(result)
+      data[key] = undefined
+      delete data[key]
+      return AsyncStorage.setItem(QUIZZES_STORAGE_KEY, JSON.stringify(data))
+    })
+}
