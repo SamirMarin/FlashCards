@@ -8,12 +8,15 @@ import {
   TextInput,
   Animated,
   Dimensions,
+  Alert,
 } from 'react-native'
 import { lightGray, lightRed, black, darkGray, lightGreen } from '../utils/colors'
 import { connect } from 'react-redux'
 import { mainFont, ansFont } from '../utils/helpers'
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import { getIcon, removeLocalNotification, setLocalNotification } from '../utils/helpers'
+import { deleteQuestion } from '../actions'
+import { deleteQuestionFromQuiz } from '../utils/api'
 
 class QuizCard extends Component {
   state = {
@@ -67,6 +70,39 @@ class QuizCard extends Component {
     })
   }
 
+  confirmDeletion(key, questions, index) {
+    const newQuestions = questions.filter((question, i) => ( i !== index ))
+    const { deleteQuestion, goBack, numQuestions } = this.props
+    Alert.alert(
+      'Confirm Deletion of Quiz Card',
+      `Are you sure you want to delete this question from the ${key} quiz?`,
+      [
+        { 
+          text: "Cancel", 
+          onPress: () => console.log("cancel")
+        },
+        { 
+          text: "Delete", 
+          onPress: () => {
+            deleteQuestionFromQuiz({ key: key, questions: newQuestions })
+              .then(() => {
+                if (numQuestions === 1) {
+                  goBack()
+                }
+                this.setState({
+                  answer: false,
+                  iosEye: 'ios-eye',
+                  androidEye: 'md-eye',
+                })
+                deleteQuestion({ key: key, questions: newQuestions })
+              })
+          }
+        }, 
+      ],
+      {cancelable: false},
+    )
+  }
+
   static navigationOptions = ( { navigation } ) => {
     const { title } = navigation.state.params
 
@@ -104,7 +140,14 @@ class QuizCard extends Component {
             </View>
           </View>
           : <View style={[styles.container]}>
+            <View style={styles.topView}>
               <Text style={styles.textQuestionCount}> { cardIndex + 1 }/{ numQuestions } </Text>
+              <TouchableOpacity
+                onPress={() => this.confirmDeletion(title, questions, cardIndex)}
+              >
+                <Text style={styles.removeTxt}>{ getIcon(FontAwesome, black, 'remove', 15)}</Text>
+              </TouchableOpacity>
+            </View>
               <View>
                 <Text style={styles.text}> { questions[cardIndex].question } </Text> 
                 <TouchableOpacity
@@ -232,6 +275,13 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
   },
+  topView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  removeTxt: {
+    paddingTop: 10,
+  }
 })
 
 function mapStateToProps(quizzes, { navigation }) {
@@ -243,4 +293,10 @@ function mapStateToProps(quizzes, { navigation }) {
   }
 }
 
-export default connect(mapStateToProps)(QuizCard)
+function mapDispatchToProps( dispatch ) {
+  return {
+    deleteQuestion: (data) => dispatch(deleteQuestion(data)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuizCard)

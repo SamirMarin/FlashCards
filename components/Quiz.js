@@ -6,12 +6,40 @@ import {
   TouchableOpacity, 
   TouchableWithoutFeedback,
   Platform,
+  Alert,
 } from 'react-native'
 import { lightRed, black, white } from '../utils/colors'
 import { connect } from 'react-redux'
-import { mainFont } from '../utils/helpers'
+import { mainFont, getIcon } from '../utils/helpers'
+import { FontAwesome } from '@expo/vector-icons'
+import { deleteQuiz } from '../actions'
+import { deleteQuizStorage } from '../utils/api'
 
 class Quiz extends Component {
+  confirmDeletion(key) {
+    const { deleteQuiz, goBack } = this.props
+    Alert.alert(
+      'Confirm Deletion of Quiz',
+      `Are you sure you want to delete ${key} quiz?`,
+      [
+        { 
+          text: "Cancel", 
+          onPress: console.log("cancel")
+        },
+        { 
+          text: "Delete", 
+          onPress: () => { 
+            deleteQuizStorage(key)
+              .then(() => {
+                goBack()
+                deleteQuiz(key)
+              })
+          }}, 
+      ],
+      {cancelable: false},
+    )
+  }
+
   static navigationOptions = {
     title: 'Quiz', 
     headerTitleStyle: { fontSize: 25 },
@@ -24,17 +52,14 @@ class Quiz extends Component {
       <View style={styles.outerContainer} >
         <TouchableWithoutFeedback onPress={console.log("dissmiss")} accessible={false}>
           <View style={styles.container}>
+            <TouchableOpacity
+              onPress={() => this.confirmDeletion(title)}
+            >
+              <Text style={styles.removeTxt}>{ getIcon(FontAwesome, black, 'remove', 15)}</Text>
+            </TouchableOpacity>
             <Text style={styles.titleText}>{ title }</Text>
             <Text style={styles.cardsText}>{ size } cards </Text>
             <View>
-              <View style={styles.addCardBtnView}>
-                <TouchableOpacity 
-                  style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
-                  onPress={() => this.props.navigation.navigate('AddQuizCard', { title })}
-                >
-                  <Text style={styles.submitBtnText}>Add Card</Text>
-                </TouchableOpacity>
-              </View>
               { size > 0 && 
                   <View style={styles.startQuizBtnView}>
                     <TouchableOpacity 
@@ -45,6 +70,14 @@ class Quiz extends Component {
                     </TouchableOpacity>
                   </View>
               }
+              <View style={styles.addCardBtnView}>
+                <TouchableOpacity 
+                  style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
+                  onPress={() => this.props.navigation.navigate('AddQuizCard', { title })}
+                >
+                  <Text style={styles.submitBtnText}>Add Card</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -61,9 +94,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'space-around',
-    paddingLeft: Platform.OS === 'ios' ? 20 : 20,
-    paddingRight: Platform.OS === 'ios' ? 20 : 20,
+    justifyContent: 'space-between',
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   submitBtn: {
     backgroundColor: lightRed,
@@ -83,12 +116,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   addCardBtnView: {
-    paddingBottom: 10,
+    paddingBottom: 60,
+    paddingTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
   },
   startQuizBtnView: {
-    paddingTop: 10,
+    paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
   },
@@ -104,6 +138,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: mainFont, 
   },
+  removeTxt: {
+    textAlign: 'right',
+    paddingTop: 10,
+  },
   headerText: {
     textAlign: 'center',
   },
@@ -112,8 +150,15 @@ const styles = StyleSheet.create({
 function mapStateToProps(quizzes, { navigation }) {
   const { title } = navigation.state.params
   return {
-    size: quizzes[title].questions.length
+    size: quizzes[title] ? quizzes[title].questions.length : null,
+    goBack: () => navigation.goBack(),
   }
 }
 
-export default connect(mapStateToProps)(Quiz)
+function mapDispatchToProps( dispatch ) {
+  return {
+    deleteQuiz: (data) => dispatch(deleteQuiz(data)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz)

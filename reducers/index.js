@@ -1,7 +1,13 @@
-import { ADD_QUIZ, ADD_QUIZZES, ADD_QUESTION } from '../actions'
+import { 
+  ADD_QUIZ, 
+  ADD_QUIZZES, 
+  ADD_QUESTION, 
+  DELETE_QUIZ, 
+  DELETE_QUESTION,
+} from '../actions'
 
 function quizzes (state ={}, action) {
-  const { key, quizData, quizzes, question } = action
+  const { key, quizData, quizzes, question, questions } = action
   switch(action.type) {
     case ADD_QUIZZES:
       return {
@@ -19,6 +25,23 @@ function quizzes (state ={}, action) {
         [key]: {
           ...state[key],
           'questions': [...state[key].questions, question]
+        }
+      }
+    case DELETE_QUIZ:
+      return (
+        Object.keys(state).reduce((newState, quiz) => {
+          if(quiz !== key) {
+            newState[quiz] = state[quiz]
+          }
+          return newState
+        }, { })
+      )
+    case DELETE_QUESTION:
+      return {
+        ...state,
+        [key]: {
+          ...state[key],
+          'questions': questions,
         }
       }
     default:
