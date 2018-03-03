@@ -27,11 +27,6 @@ class QuizCard extends Component {
     androidEye: 'md-eye',
   }
 
-  componentDidMount () {
-    removeLocalNotification()
-      .then(setLocalNotification)
-  }
-
   flipCard = () => {
     this.setState((state) => ({
       answer: !state.answer,
@@ -42,6 +37,8 @@ class QuizCard extends Component {
   }
 
   correct = () => {
+    this.resetNotificationIfQuizCompleted()
+
     this.setState((state) => ({
       cardIndex: state.cardIndex + 1,
       numCorrect: state.numCorrect + 1,
@@ -52,6 +49,8 @@ class QuizCard extends Component {
   }
 
   incorrect = () => {
+    this.resetNotificationIfQuizCompleted()
+
     this.setState((state) => ({
       cardIndex: state.cardIndex + 1,
       answer: false,
@@ -68,6 +67,15 @@ class QuizCard extends Component {
       iosEye: 'ios-eye',
       androidEye: 'md-eye',
     })
+  }
+
+  resetNotificationIfQuizCompleted() {
+    const { cardIndex } = this.state
+    const { numQuestions } = this.props
+    if ( cardIndex + 1 === numQuestions ) {
+      removeLocalNotification()
+        .then(setLocalNotification)
+    }
   }
 
   confirmDeletion(key, questions, index) {
