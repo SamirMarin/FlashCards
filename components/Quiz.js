@@ -9,7 +9,8 @@ import {
 } from 'react-native'
 import { lightRed, black, white } from '../utils/colors'
 import { connect } from 'react-redux'
-import { mainFont } from '../utils/helpers'
+import { mainFont, getIcon } from '../utils/helpers'
+import { FontAwesome } from '@expo/vector-icons'
 
 class Quiz extends Component {
   static navigationOptions = {
@@ -24,17 +25,10 @@ class Quiz extends Component {
       <View style={styles.outerContainer} >
         <TouchableWithoutFeedback onPress={console.log("dissmiss")} accessible={false}>
           <View style={styles.container}>
+            <Text style={styles.removeTxt}>{ getIcon(FontAwesome, black, 'remove', 15)}</Text>
             <Text style={styles.titleText}>{ title }</Text>
             <Text style={styles.cardsText}>{ size } cards </Text>
             <View>
-              <View style={styles.addCardBtnView}>
-                <TouchableOpacity 
-                  style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
-                  onPress={() => this.props.navigation.navigate('AddQuizCard', { title })}
-                >
-                  <Text style={styles.submitBtnText}>Add Card</Text>
-                </TouchableOpacity>
-              </View>
               { size > 0 && 
                   <View style={styles.startQuizBtnView}>
                     <TouchableOpacity 
@@ -45,6 +39,14 @@ class Quiz extends Component {
                     </TouchableOpacity>
                   </View>
               }
+              <View style={styles.addCardBtnView}>
+                <TouchableOpacity 
+                  style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
+                  onPress={() => this.props.navigation.navigate('AddQuizCard', { title })}
+                >
+                  <Text style={styles.submitBtnText}>Add Card</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -61,9 +63,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'space-around',
-    paddingLeft: Platform.OS === 'ios' ? 20 : 20,
-    paddingRight: Platform.OS === 'ios' ? 20 : 20,
+    justifyContent: 'space-between',
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   submitBtn: {
     backgroundColor: lightRed,
@@ -83,12 +85,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   addCardBtnView: {
-    paddingBottom: 10,
+    paddingBottom: 60,
+    paddingTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
   },
   startQuizBtnView: {
-    paddingTop: 10,
+    paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
   },
@@ -103,6 +106,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     fontFamily: mainFont, 
+  },
+  removeTxt: {
+    textAlign: 'right',
+    paddingTop: 10,
   },
   headerText: {
     textAlign: 'center',

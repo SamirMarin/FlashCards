@@ -12,7 +12,7 @@ import {
 import { lightGray, lightRed, black, darkGray, lightGreen } from '../utils/colors'
 import { connect } from 'react-redux'
 import { mainFont, ansFont } from '../utils/helpers'
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import { getIcon, removeLocalNotification, setLocalNotification } from '../utils/helpers'
 
 class QuizCard extends Component {
@@ -104,7 +104,10 @@ class QuizCard extends Component {
             </View>
           </View>
           : <View style={[styles.container]}>
+            <View style={styles.topView}>
               <Text style={styles.textQuestionCount}> { cardIndex + 1 }/{ numQuestions } </Text>
+              <Text style={styles.removeTxt}>{ getIcon(FontAwesome, black, 'remove', 15)}</Text>
+            </View>
               <View>
                 <Text style={styles.text}> { questions[cardIndex].question } </Text> 
                 <TouchableOpacity
@@ -232,6 +235,13 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
   },
+  topView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  removeTxt: {
+    paddingTop: 10,
+  }
 })
 
 function mapStateToProps(quizzes, { navigation }) {

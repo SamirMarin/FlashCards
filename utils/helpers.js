@@ -5,11 +5,11 @@ import { Notifications, Permissions } from 'expo'
 export const mainFont = Platform.OS === 'ios' ? 'System' : 'System'
 export const appNameFont = Platform.OS === 'ios' ? 'Zapfino' : 'sans-serif-thin'
 
-export function getIcon(Component, tintColor, name) {
+export function getIcon(Component, tintColor, name, size = 30) {
   return  (
       <Component 
         name={name}
-        size={30} 
+        size={size} 
         color={tintColor}/>
   )
 }
