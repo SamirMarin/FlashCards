@@ -4,7 +4,6 @@ import {
   Text, 
   View, 
   TouchableOpacity, 
-  TouchableWithoutFeedback,
   Platform,
   Alert,
 } from 'react-native'
@@ -50,7 +49,6 @@ class Quiz extends Component {
     const { size } = this.props
     return (
       <View style={styles.outerContainer} >
-        <TouchableWithoutFeedback onPress={console.log("dissmiss")} accessible={false}>
           <View style={styles.container}>
             <TouchableOpacity
               onPress={() => this.confirmDeletion(title)}
@@ -80,7 +78,6 @@ class Quiz extends Component {
               </View>
             </View>
           </View>
-        </TouchableWithoutFeedback>
       </View>
     )
   }
