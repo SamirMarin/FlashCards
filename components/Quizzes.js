@@ -5,6 +5,7 @@ import { yellow, lightGray, darkGray, black, white } from '../utils/colors'
 import { fetchAllQuizzes } from '../utils/api'
 import { addQuizzes } from '../actions'
 import { mainFont } from '../utils/helpers'
+import sortBy from 'sort-by'
 
 
 function Quiz({ title, size, props }) {
@@ -48,7 +49,7 @@ class Quizzes extends Component {
             <Text style={styles.text}> You currently have no quizzes, but you can create some! </Text> 
           </View>
           : <FlatList
-            data={this.props.quizzes}
+            data={this.props.quizzes.sort(sortBy('title'))}
             renderItem={this.renderItem}
             keyExtractor={(item, index) => index}
           />}

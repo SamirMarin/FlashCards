@@ -103,9 +103,10 @@ const MainNavigator = StackNavigator({
 const store = createStore(reducer)
 
 export default class App extends React.Component {
-  componentDidMount () {
-    setLocalNotification()
-  }
+   //TODO start setting local notifications reminder once past intial release stage
+  //componentDidMount () {
+  // setLocalNotification()
+  //}
   render() {
     return (
       <Provider store={store}>

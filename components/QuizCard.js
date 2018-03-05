@@ -37,7 +37,8 @@ class QuizCard extends Component {
   }
 
   correct = () => {
-    this.resetNotificationIfQuizCompleted()
+    //TODO start setting local notifications reminder once past intial release stage
+    //this.resetNotificationIfQuizCompleted()
 
     this.setState((state) => ({
       cardIndex: state.cardIndex + 1,
