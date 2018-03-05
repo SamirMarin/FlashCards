@@ -28,7 +28,10 @@ class CreateQuiz extends Component {
   handleSubmit = () => {
     const { title } = this.state
     const { quizzes, addQuiz } = this.props
-    if (quizzes[title]){
+    if (title === '') {
+      alert("Don't forget to enter a title for your new quiz!")
+
+    } else if (quizzes[title]){
       alert("You alredy have a quiz with this name")
 
     } else {

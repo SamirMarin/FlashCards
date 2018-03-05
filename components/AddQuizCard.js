@@ -31,18 +31,23 @@ class AddQuizCard extends Component {
 
   handleOnSubmit(title) {
     const { question, answer } = this.state
-    const { addQuestion, goBack } = this.props
-    const questionObj = {
-      question,
-      answer,
-    }
+    if (question === '' || answer === '') {
+      alert("Don't forget to fill in a Question & an Answer before adding your card")
 
-    addQuestionToQuiz({ key: title, question: questionObj })
-      .then(() => {
-        addQuestion({ key: title, question: questionObj })
-        goBack()
-      })
-      .catch((err) => console.log(err))
+    } else {
+      const { addQuestion, goBack } = this.props
+      const questionObj = {
+        question,
+        answer,
+      }
+
+      addQuestionToQuiz({ key: title, question: questionObj })
+        .then(() => {
+          addQuestion({ key: title, question: questionObj })
+          goBack()
+        })
+        .catch((err) => console.log(err))
+    }
   }
 
   static navigationOptions = {
