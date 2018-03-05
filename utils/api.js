@@ -30,10 +30,15 @@ export function deleteQuizStorage( key ) {
     })
 }
 
-export function deleteQuestionFromQuiz({ key, questions }) {
+export function deleteQuestionFromQuiz({ key, question }) {
   return AsyncStorage.getItem(QUIZZES_STORAGE_KEY)
     .then((quizzes) => JSON.parse(quizzes)[key])
     .then((quizData) => AsyncStorage.mergeItem(QUIZZES_STORAGE_KEY, JSON.stringify({
-      [key]: {...quizData, 'questions': questions }
+      [key]: {
+        ...quizData, 
+        'questions': quizData.questions.filter((q) => {
+          return q.question !== question.question && q.answer !== question.answer
+        })
+      }
     })))
 }

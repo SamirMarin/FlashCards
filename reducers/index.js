@@ -7,7 +7,7 @@ import {
 } from '../actions'
 
 function quizzes (state ={}, action) {
-  const { key, quizData, quizzes, question, questions } = action
+  const { key, quizData, quizzes, question } = action
   switch(action.type) {
     case ADD_QUIZZES:
       return {
@@ -41,7 +41,9 @@ function quizzes (state ={}, action) {
         ...state,
         [key]: {
           ...state[key],
-          'questions': questions,
+          'questions': state[key].questions.filter((q) => {
+             return q.quesiton !== question.question && q.answer !== question.answer
+          })
         }
       }
     default:
