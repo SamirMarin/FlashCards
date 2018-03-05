@@ -34,10 +34,10 @@ export function deleteQuiz ( key ) {
   }
 }
 
-export function deleteQuestion ( { key, questions } ) {
+export function deleteQuestion ( { key, question } ) {
   return {
     type: DELETE_QUESTION,
     key,
-    questions,
+    question,
   }
 }

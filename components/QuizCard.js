@@ -79,7 +79,6 @@ class QuizCard extends Component {
   }
 
   confirmDeletion(key, questions, index) {
-    const newQuestions = questions.filter((question, i) => ( i !== index ))
     const { deleteQuestion, goBack, numQuestions } = this.props
     Alert.alert(
       'Confirm Deletion of Quiz Card',
@@ -92,7 +91,7 @@ class QuizCard extends Component {
         { 
           text: "Delete", 
           onPress: () => {
-            deleteQuestionFromQuiz({ key: key, questions: newQuestions })
+            deleteQuestionFromQuiz({ key: key, question: questions[index] })
               .then(() => {
                 if (numQuestions === 1) {
                   goBack()
@@ -102,7 +101,7 @@ class QuizCard extends Component {
                   iosEye: 'ios-eye',
                   androidEye: 'md-eye',
                 })
-                deleteQuestion({ key: key, questions: newQuestions })
+                deleteQuestion({ key: key, question: questions[index] })
               })
           }
         }, 
@@ -292,10 +291,26 @@ const styles = StyleSheet.create({
   }
 })
 
+function shuffleQuestions(questions) {
+  let counter = questions.length
+
+  while (counter > 0) {
+    let i = Math.floor(Math.random() * counter)
+
+    counter -= 1
+
+    const temp = questions[counter]
+    questions[counter] = questions[i]
+    questions[i] = temp
+  }
+
+  return questions
+}
+
 function mapStateToProps(quizzes, { navigation }) {
-  const { title } = navigation.state.params
+  const { title, shuffle } = navigation.state.params
   return {
-    questions: quizzes[title].questions,
+    questions: shuffle ? shuffleQuestions([...quizzes[title].questions]) : quizzes[title].questions,
     numQuestions: quizzes[title].questions.length,
     goBack: () => navigation.goBack(),
   }

@@ -6,6 +6,7 @@ import {
   TouchableOpacity, 
   Platform,
   Alert,
+  Switch,
 } from 'react-native'
 import { lightRed, black, white } from '../utils/colors'
 import { connect } from 'react-redux'
@@ -15,6 +16,10 @@ import { deleteQuiz } from '../actions'
 import { deleteQuizStorage } from '../utils/api'
 
 class Quiz extends Component {
+  state = {
+    shuffle: false,
+    shuffleNotice: '',
+  }
   confirmDeletion(key) {
     const { deleteQuiz, goBack } = this.props
     Alert.alert(
@@ -39,6 +44,13 @@ class Quiz extends Component {
     )
   }
 
+  handleToggleSwitch = () => {
+    this.setState((state) => ({
+      shuffle: !state.shuffle,
+      shuffleNotice: state.shuffleNotice === '' ? 'shuffle' : '',
+    }))
+  }
+
   static navigationOptions = {
     title: 'Quiz', 
     headerTitleStyle: { fontSize: 25 },
@@ -46,6 +58,7 @@ class Quiz extends Component {
   }
   render() {
     const { title } = this.props.navigation.state.params
+    const { shuffle, shuffleNotice } =  this.state
     const { size } = this.props
     return (
       <View style={styles.outerContainer} >
@@ -57,12 +70,19 @@ class Quiz extends Component {
             </TouchableOpacity>
             <Text style={styles.titleText}>{ title }</Text>
             <Text style={styles.cardsText}>{ size } cards </Text>
+            <View style={styles.shuffleView}>
+              <Switch
+                value={shuffle}
+                onValueChange={this.handleToggleSwitch}
+              />
+              <Text style={styles.shuffleText}> {shuffleNotice} </Text>
+            </View>
             <View>
               { size > 0 && 
                   <View style={styles.startQuizBtnView}>
                     <TouchableOpacity 
                       style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
-                      onPress={() => this.props.navigation.navigate('QuizCard', { title })}
+                      onPress={() => this.props.navigation.navigate('QuizCard', { title, shuffle })}
                     >
                       <Text style={styles.submitBtnText}> Start Quiz </Text>
                     </TouchableOpacity>
@@ -141,6 +161,15 @@ const styles = StyleSheet.create({
   },
   headerText: {
     textAlign: 'center',
+  },
+  shuffleView: {
+   alignItems: 'center',
+  },
+  shuffleText: {
+    fontSize: 10,
+    color: black,
+    fontFamily: mainFont, 
+    paddingTop: 3,
   },
 })
 
