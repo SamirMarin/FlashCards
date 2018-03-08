@@ -11,7 +11,7 @@ import {
 import { lightRed, black, white } from '../utils/colors'
 import { connect } from 'react-redux'
 import { mainFont, getIcon } from '../utils/helpers'
-import { FontAwesome } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import { deleteQuiz } from '../actions'
 import { deleteQuizStorage } from '../utils/api'
 
@@ -66,7 +66,12 @@ class Quiz extends Component {
             <TouchableOpacity
               onPress={() => this.confirmDeletion(title)}
             >
-              <Text style={styles.removeTxt}>{ getIcon(FontAwesome, black, 'remove', 15)}</Text>
+              <Text style={styles.removeTxt}>
+                { Platform.OS === 'ios' 
+                  ? getIcon(Ionicons, black, 'ios-trash', 20)
+                  : getIcon(Ionicons, black, 'md-trash', 20)
+                }
+              </Text>
             </TouchableOpacity>
             <Text style={styles.titleText}>{ title }</Text>
             <Text style={styles.cardsText}>{ size } cards </Text>

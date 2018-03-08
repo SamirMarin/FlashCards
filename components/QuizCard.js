@@ -13,7 +13,7 @@ import {
 import { lightGray, lightRed, black, darkGray, lightGreen } from '../utils/colors'
 import { connect } from 'react-redux'
 import { mainFont, ansFont } from '../utils/helpers'
-import { Ionicons, FontAwesome } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import { getIcon, removeLocalNotification, setLocalNotification } from '../utils/helpers'
 import { deleteQuestion } from '../actions'
 import { deleteQuestionFromQuiz } from '../utils/api'
@@ -153,7 +153,12 @@ class QuizCard extends Component {
               <TouchableOpacity
                 onPress={() => this.confirmDeletion(title, questions, cardIndex)}
               >
-                <Text style={styles.removeTxt}>{ getIcon(FontAwesome, black, 'remove', 15)}</Text>
+                <Text style={styles.removeTxt}>
+                  { Platform.OS === 'ios' 
+                    ? getIcon(Ionicons, black, 'ios-trash', 20)
+                    : getIcon(Ionicons, black, 'md-trash', 20)
+                  }
+              </Text>
               </TouchableOpacity>
             </View>
               <View>
