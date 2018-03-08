@@ -17,6 +17,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { getIcon, removeLocalNotification, setLocalNotification } from '../utils/helpers'
 import { deleteQuestion } from '../actions'
 import { deleteQuestionFromQuiz } from '../utils/api'
+import { NavigationActions } from 'react-navigation'
 
 class QuizCard extends Component {
   state = {
@@ -60,14 +61,15 @@ class QuizCard extends Component {
     }))
   }
 
-  restartQuiz = () => {
-    this.setState({
-      cardIndex: 0,
-      answer: false,
-      numCorrect: 0,
-      iosEye: 'ios-eye',
-      androidEye: 'md-eye',
+  restartQuiz = (title, shuffle) => {
+    const { goBack } = this.props
+    goBack()
+
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'QuizCard',
+      params: { title, shuffle },
     })
+    this.props.navigation.dispatch(navigateAction)
   }
 
   resetNotificationIfQuizCompleted() {
@@ -120,7 +122,7 @@ class QuizCard extends Component {
     }
   }
   render() {
-    const { title } = this.props.navigation.state.params
+    const { title, shuffle } = this.props.navigation.state.params
     const { cardIndex, answer, numCorrect, iosEye, androidEye } = this.state
     const { questions, numQuestions, goBack } = this.props
     return (
@@ -132,7 +134,7 @@ class QuizCard extends Component {
               <View style={styles.correctBtnView}>
                 <TouchableOpacity 
                   style={Platform.OS === 'ios' ? styles.incorrectBtn : styles.androidIncorrectBtn }
-                  onPress={this.restartQuiz}
+                  onPress={() => this.restartQuiz(title, shuffle)}
                 >
                   <Text style={styles.submitBtnText}> Restart Quiz </Text>
                 </TouchableOpacity>
