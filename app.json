@@ -1,5 +1,20 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "sdkVersion": "25.0.0",
+    "orientation": "portrait",
+    "name": "cartaz",
+    "description": "Flashcards - pass all your exams",
+    "slug": "cartazflashcards",
+    "version": "1.0",
+    "icon": "./images/Icon.png",
+    "splash": {
+      "image": "./images/cartaz_splash.png"
+    },
+    "ios": {
+      "bundleIdentifier": "org.cartaz.exp"
+    },
+    "android": {
+      "package": "org.cartaz.exp"
+    }
   }
 }
