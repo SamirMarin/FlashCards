@@ -1,11 +1,12 @@
 import React, { Component } from 'react' 
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Platform } from 'react-native'
 import { connect } from 'react-redux'
-import { yellow, lightGray, darkGray, black, white } from '../utils/colors'
+import { yellow, lightGray, darkGray, black, white, lightRed } from '../utils/colors'
 import { fetchAllQuizzes } from '../utils/api'
 import { addQuizzes } from '../actions'
 import { mainFont } from '../utils/helpers'
 import sortBy from 'sort-by'
+import { NavigationActions } from 'react-navigation'
 
 
 function Quiz({ title, size, props }) {
@@ -40,6 +41,13 @@ class Quizzes extends Component {
     }
     return <Quiz {...params}/>
   }
+
+  handleCreateQuizRoute = () => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'CreateQuiz',
+    })
+    this.props.navigation.dispatch(navigateAction)
+  }
   
   render() {
     return (
@@ -47,6 +55,14 @@ class Quizzes extends Component {
         {this.props.quizzes && this.props.quizzes.length === 0 
           ? <View style={styles.textView}> 
             <Text style={styles.text}> You currently have no quizzes, but you can create some! </Text> 
+            <View style={styles.btnView}>
+              <TouchableOpacity
+                style={Platform.OS === 'ios' ? styles.submitBtn : styles.androidSubmitBtn}
+                onPress={this.handleCreateQuizRoute}
+              >
+                <Text style={styles.submitBtnText}> Create Quiz </Text>
+              </TouchableOpacity>
+            </View>
           </View>
           : <FlatList
             data={this.props.quizzes.sort(sortBy('title'))}
@@ -90,10 +106,30 @@ const styles = StyleSheet.create({
   },
   textView: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     padding: 20,
-  }
+  },
+  submitBtn: {
+    backgroundColor: lightRed,
+    padding: 10,
+    borderRadius: 7,
+    height: 50,
+  },
+  androidSubmitBtn: {
+    backgroundColor: lightRed,
+    padding: 10,
+    borderRadius: 2,
+    height: 50,
+  },
+  submitBtnText: {
+    color: 'white',
+    fontSize: 22,
+    textAlign: 'center',
+  },
+  btnView: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
 });
 
 function mapStateToProps( quizzes ) {
