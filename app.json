@@ -5,8 +5,8 @@
     "name": "cartaz",
     "description": "Flashcards - pass all your exams",
     "slug": "cartazflashcards",
-    "version": "1.0",
-    "icon": "./images/Icon.png",
+    "version": "2",
+    "icon": "./images/Android_launcher_APP.png",
     "splash": {
       "image": "./images/cartaz_splash.png"
     },
@@ -14,7 +14,8 @@
       "bundleIdentifier": "org.cartaz.exp"
     },
     "android": {
-      "package": "org.cartaz.exp"
+      "package": "org.cartaz.exp",
+      "versionCode": 2
     }
   }
 }
