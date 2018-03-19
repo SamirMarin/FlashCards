@@ -51,7 +51,7 @@ class QuizCard extends Component {
   }
 
   incorrect = () => {
-    this.resetNotificationIfQuizCompleted()
+    //this.resetNotificationIfQuizCompleted()
 
     this.setState((state) => ({
       cardIndex: state.cardIndex + 1,
